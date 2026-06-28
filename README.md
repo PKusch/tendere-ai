@@ -75,6 +75,11 @@ internal content, Tendere raises it to capability leadership as a provision gap.
 One person gets a plan; the organisation gets a map of where its learning supply
 has holes against live demand.
 
+**It shows its work — and its doubt.** Claude gives a second opinion on every
+gap, with calibrated confidence and a citation pulled from the person's own
+profile. Where the model and the deterministic rules disagree, that's *surfaced*
+for a human — never silently resolved. Honest means auditable.
+
 **It closes the loop.** Completed effort is credited (modelled as a Workday
 write-back) and lands on the profile — `stale → current`, `self-taught →
 evidenced`. The work compounds instead of evaporating.
@@ -85,17 +90,17 @@ evidenced`. The work compounds instead of evaporating.
 
 ```
 job spec (as it lands — messy bullets)
-   →  parse to structured requirements
+   →  parse to structured requirements                                ✦ Claude (stub fallback)
    →  diff against the consultant's profile   (level + recency + evidence)
-   →  classify each requirement   (met / stale / no-content / latent / learnable)
+   →  classify each requirement   (met / stale / no-content / latent / learnable)   ✦ + Claude second opinion
    →  map gaps to firm learning content   (or flag where none exists)
    →  build a calendar-aware learning plan toward future demand
    →  credit effort + reward
-   →  surface the firm's provision gaps
+   →  surface the firm's provision gaps   →  firm-wide capability view
 ```
 
 > [!TIP]
-> Exactly one step needs an LLM: turning a messy free-text spec into structured requirements. A deterministic stub stands in for it — so everything else runs locally, with zero dependencies.
+> **Claude does the genuinely AI part:** it parses the messy free-text spec into structured requirements (normalised to the firm's own vocabulary), and gives a second opinion on each gap — calibrated confidence plus a citation from the person's profile. A deterministic stub stands in when there's no API key, so everything still runs locally with zero dependencies and the demo never hard-fails. Set `ANTHROPIC_API_KEY` to switch the live model on.
 
 <details>
 <summary><b>🔧 Under the hood — the data model</b></summary>
@@ -137,7 +142,22 @@ It prints the whole pipeline on a worked example: a spec from a delivery lead, t
 diff against the consultant, the learning plan, the weekly schedule, the Workday
 write-back, the firm provision gap — and, for contrast, the misfit role a keyword
 search would have shoved them into. Watch the verdict flip from **strong fit** to
-**strategic misfit**.
+**strategic misfit**. It ends by zooming out to a **firm capability view** for
+leadership: every open role against the whole bench, provision gaps ranked by how
+many people they block, and strategic-demand readiness.
+
+**Turn the live model on** (optional) — without it, the engine runs on the
+deterministic stub and prints exactly the same shape:
+
+```bash
+pip install -r requirements.txt
+export ANTHROPIC_API_KEY=sk-ant-...
+python3 engine.py
+```
+
+Now Claude parses the spec and gives its second opinion: confidence and citations
+appear inline, and anywhere the model disagrees with the rules is flagged for a
+human. (Swap models for lower latency with `TENDERE_MODEL=claude-sonnet-4-6`.)
 
 **The dashboard** — `dashboard.jsx`, the same logic as a React component. Toggle
 between the two roles and the verdict recomputes live; the weekly-hours control
@@ -148,24 +168,31 @@ re-paces the plan. Drop it into a React app or a JSX sandbox.
 ## 🗂️ Project structure
 
 ```
-engine.py        the fit-mapping + planning engine
-dashboard.jsx    the dashboard (same logic, ported)
+engine.py          the fit-mapping + planning engine (+ Claude parser & classifier)
+dashboard.jsx      the dashboard (same logic, ported)
+requirements.txt   optional — only for the live Claude layer
 data/
-  spec.json      job specs as they arrive, plus the parsed stub
-  roster.json    consultant profiles — level + recency + evidence
-  content.json   firm learning content, with coverage flags
-  demand.json    high-value demand signals — scarcity, recurrence
+  spec.json        job specs as they arrive, plus the parsed stub
+  roster.json      consultant profiles — level + recency + evidence
+  content.json     firm learning content, with coverage flags
+  demand.json      high-value demand signals — scarcity, recurrence
 ```
 
 ---
 
 ## 🛣️ Roadmap
 
-- [ ] Swap the deterministic stub for a real LLM spec parser
+**Shipped**
+- [x] Real LLM spec parser — Claude reads the messy spec, normalised to the firm's vocabulary (deterministic stub as offline fallback)
+- [x] LLM second-opinion classifier — calibrated confidence + a citation from the profile; model/rules disagreement flagged for human review, never silently overridden
+- [x] Firm-wide provision-gap view — holes aggregated and ranked across the whole bench
+- [x] Multi-consultant matrix — every open role scored against every benched consultant
+
+**Next**
+- [ ] Realistic data slice grounded in public sources (job-postings demand, survey-based profiles, course-catalogue content) + one shared skills taxonomy
+- [ ] Calibration + eval harness for the classifier's confidence
 - [ ] Live write-back to Workday / the HR system of record
 - [ ] Calendar integration for genuinely calendar-aware scheduling
-- [ ] Firm-wide provision-gap view — aggregate the holes across the whole bench
-- [ ] Multi-consultant matrix: one role, the shape of every candidate at once
 
 ---
 
