@@ -1,0 +1,3 @@
+# Only needed for the live Claude spec parser (engine.parse_spec).
+# Without these the engine still runs end-to-end on the deterministic stub.
+anthropic>=0.40
