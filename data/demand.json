@@ -1,0 +1,62 @@
+{
+  "_comment": "High-value firm demand signals. Synthetic but modelled on real consulting-firm demand. 'acuteness' = how urgently unmet, 'recurrence' = how many client accounts show this demand, 'scarcity' = how few internal people can verifiably deliver it. These drive the 'prioritise X over Y' logic.",
+  "signals": [
+    {
+      "id": "DEM-AI",
+      "capability": "Data & AI / GenAI",
+      "label": "AI / GenAI delivery (data + AI engineering)",
+      "acuteness": "critical",
+      "recurrence": "most accounts",
+      "scarcity": "severe",
+      "value_index": 98,
+      "note": "Most acute, most wanted. Huge latent supply of self-taught people, very few with certs or verifiable delivery."
+    },
+    {
+      "id": "DEM-CLOUD",
+      "capability": "Cloud Architecture",
+      "label": "Cloud architecture",
+      "acuteness": "high",
+      "recurrence": "many accounts",
+      "scarcity": "high",
+      "value_index": 86
+    },
+    {
+      "id": "DEM-SC",
+      "capability": "Security Clearance",
+      "label": "Security-cleared talent (SC/DV)",
+      "acuteness": "high",
+      "recurrence": "regulated FS + gov accounts",
+      "scarcity": "high",
+      "value_index": 84,
+      "note": "Gated by clearance, not just skill. Long lead time to obtain."
+    },
+    {
+      "id": "DEM-DELIVERY",
+      "capability": "Delivery Management",
+      "label": "Senior delivery capacity",
+      "acuteness": "high",
+      "recurrence": "perennial",
+      "scarcity": "medium",
+      "value_index": 78
+    },
+    {
+      "id": "DEM-CYBER",
+      "capability": "Cyber / Security",
+      "label": "Cyber / security skills",
+      "acuteness": "high",
+      "recurrence": "many accounts",
+      "scarcity": "high",
+      "value_index": 82
+    },
+    {
+      "id": "DEM-REG",
+      "capability": "Regulatory / Compliance",
+      "label": "Specific regulatory experience (FS)",
+      "acuteness": "medium-high",
+      "recurrence": "account-specific",
+      "scarcity": "high",
+      "value_index": 80,
+      "note": "Value spikes on specific named regimes (e.g. Consumer Duty, DORA) for specific accounts."
+    }
+  ]
+}

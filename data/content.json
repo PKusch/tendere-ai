@@ -1,0 +1,24 @@
+{
+  "_comment": "The firm's actual learning content, across provider partnerships. 'coverage' is the crux: full = real courses incl. a verifiable path; refresh = currency/top-up only, not from-scratch; none = the firm has NO real content (only fragments) — a provision gap to surface. hours = realistic effort. verifiable = produces sellable evidence (cert/showcase). Provider names are placeholders for a public repo.",
+  "content": [
+    {"capability": "Business Analysis", "coverage": "full", "items": [{"title": "BA practitioner refresher", "provider": "Internal academy", "hours": 3, "verifiable": false, "url": "https://learn.example-firm.com/ba"}]},
+    {"capability": "Agile / Transformation", "coverage": "full", "items": [{"title": "SAFe / Agile certification", "provider": "Provider A", "hours": 12, "verifiable": true, "url": "https://learn.example-firm.com/safe"}]},
+    {"capability": "Commercial Banking", "coverage": "refresh", "items": [
+        {"title": "Commercial Banking current-state primer", "provider": "Provider B", "hours": 4, "verifiable": false, "url": "https://learn.example-firm.com/commercial-primer"},
+        {"title": "FS commercial products & lending update", "provider": "Provider C", "hours": 3, "verifiable": false, "url": "https://learn.example-firm.com/commercial-products"}
+      ],
+      "note": "Refresh-level only — restores currency, does not build from scratch. Right for someone with stale prior experience."
+    },
+    {"capability": "Claude Cowork / GenAI tooling", "coverage": "full", "items": [
+        {"title": "GenAI foundations", "provider": "Internal academy", "hours": 6, "verifiable": false, "url": "https://learn.example-firm.com/genai-foundations"},
+        {"title": "Applied GenAI / Cowork practitioner (capstone)", "provider": "Provider A", "hours": 18, "verifiable": true, "url": "https://learn.example-firm.com/genai-practitioner"}
+      ],
+      "evidence_path": "Internal capstone / showcase — converts self-taught into evidenced + Workday-credited."
+    },
+    {"capability": "nCino", "coverage": "none",
+      "fragments": [{"title": "Assorted nCino intro decks", "provider": "Internal share drive", "hours": 2, "verifiable": false, "url": "https://share.example-firm.com/ncino-ppts"}],
+      "workaround": "No real firm course exists. Options: vendor enablement (nCino University) or shadow a certified colleague on a live nCino engagement.",
+      "note": "PROVISION GAP: the firm wants nCino-experienced BAs but has no internal training for it."
+    }
+  ]
+}

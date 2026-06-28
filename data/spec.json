@@ -1,0 +1,30 @@
+{
+  "_comment": "Job specs as they actually arrive from a delivery lead — messy bullets, not tidy capability dicts. 'raw' is what lands in the inbox. 'parsed_stub' is a deterministic stand-in for the LLM parser that will read real messy specs in production (the LLM slots in here; the rest of the pipeline is deterministic). domain_family drives the mismatch check.",
+  "specs": [
+    {
+      "id": "ROLE-Z",
+      "title": "BA — Commercial Banking (Client Z, Tier-1 Bank)",
+      "from": "Delivery Lead, Client Z",
+      "domain_family": "Financial Services",
+      "raw": "- 5+ years as a BA in commercial banking\n- agile certified, worked on nCino platform before\n- familiar with agile delivery lifecycle\n- familiar and worked on Claude Cowork before",
+      "parsed_stub": [
+        {"item": "Business Analysis", "type": "capability", "need_level": "deep", "need_recency": "current"},
+        {"item": "Commercial Banking", "type": "domain", "need_level": "deep", "need_recency": "current"},
+        {"item": "Agile / Transformation", "type": "capability", "need_level": "certified", "need_recency": "current"},
+        {"item": "nCino", "type": "platform", "need_level": "experienced", "need_recency": "any"},
+        {"item": "Claude Cowork / GenAI tooling", "type": "platform", "need_level": "familiar", "need_recency": "any"}
+      ]
+    },
+    {
+      "id": "ROLE-PH",
+      "title": "BA — Public Health Programme (Public Sector)",
+      "from": "Resourcing (auto-suggested)",
+      "domain_family": "Public Sector",
+      "raw": "- BA for a public health transformation programme\n- stakeholder management, process mapping\n- available immediately",
+      "parsed_stub": [
+        {"item": "Business Analysis", "type": "capability", "need_level": "deep", "need_recency": "current"},
+        {"item": "Public Health", "type": "domain", "need_level": "deep", "need_recency": "current"}
+      ]
+    }
+  ]
+}

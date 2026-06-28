@@ -1,0 +1,39 @@
+{
+  "_comment": "Bench roster with RICH profiles: every item has level, recency (current/stale), and evidence (verified/certified/self-taught/partial). This is what lets the engine tell 'never done it' from 'did it but it's gone cold' from 'can do it but can't prove it'. Absence of an item = true void. Names fictional.",
+  "level_rank": {"none": 0, "familiar": 1, "moderate": 2, "experienced": 3, "deep": 4, "certified": 4},
+  "consultants": [
+    {
+      "id": "CONS-001",
+      "name": "Maya R.",
+      "pronouns": "she/her",
+      "seniority": "Consultant",
+      "roll_off_weeks": 7,
+      "geography": "UK",
+      "weekly_learning_hours": 4,
+      "profile": [
+        {"item": "Business Analysis", "type": "capability", "level": "deep", "recency": "current", "evidence": "verified"},
+        {"item": "Core Banking", "type": "domain", "family": "Financial Services", "level": "deep", "recency": "current", "evidence": "verified", "note": "3+ years"},
+        {"item": "Commercial Banking", "type": "domain", "family": "Financial Services", "level": "moderate", "recency": "stale", "evidence": "partial", "note": "several years ago, plus a recent 3-month stint the client closed early"},
+        {"item": "Agile / Transformation", "type": "capability", "level": "certified", "recency": "current", "evidence": "certified"},
+        {"item": "Claude Cowork / GenAI tooling", "type": "platform", "level": "moderate", "recency": "current", "evidence": "self-taught", "note": "lots of internal training in spare time, no cert, no formal showcase"}
+      ],
+      "ambitions": ["Claude Cowork / GenAI tooling", "Operating Model"],
+      "demo_protagonist": true
+    },
+    {
+      "id": "CONS-006",
+      "name": "Daniel O.",
+      "pronouns": "he/him",
+      "seniority": "Senior Consultant",
+      "roll_off_weeks": 9,
+      "geography": "UK",
+      "weekly_learning_hours": 3,
+      "profile": [
+        {"item": "Business Analysis", "type": "capability", "level": "deep", "recency": "current", "evidence": "verified"},
+        {"item": "Core Banking", "type": "domain", "family": "Financial Services", "level": "deep", "recency": "current", "evidence": "verified"},
+        {"item": "Agile / Transformation", "type": "capability", "level": "certified", "recency": "current", "evidence": "certified"}
+      ],
+      "ambitions": ["Operating Model", "Claude Cowork / GenAI tooling"]
+    }
+  ]
+}
