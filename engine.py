@@ -139,6 +139,14 @@ def diff(consultant, spec, content_map):
     # matches against), so "worked on nCino" lands as the data's "nCino".
     vocab = sorted(set(profile_map) | set(content_map))
     reqs = parse_spec(spec, vocab)
+    # Merge requirements that normalise to the same item (the live parser can emit
+    # two mentions of "Agile" as two rows) — keep the highest need_level, first order.
+    merged = {}
+    for r in reqs:
+        k = r["item"]
+        if k not in merged or RANK.get(r["need_level"], 0) > RANK.get(merged[k]["need_level"], 0):
+            merged[k] = r
+    reqs = list(merged.values())
     rows = []
     for r in reqs:
         status, why = classify(r, profile_map, content_map)
