@@ -5,7 +5,7 @@
 > consultant's *real* profile, and plans them toward where demand is going — then
 > zooms out to show capability leadership where the firm's training has holes.
 
-- **Live demo:** _<paste your Netlify/Vercel URL here>_
+- **Live demo:** https://pkusch.github.io/tendere-ai/  (GitHub Pages — enable once: Settings → Pages → Source: GitHub Actions)
 - **Repo:** https://github.com/PKusch/tendere-ai
 - **Pitch deck:** [`Tendere-AI-Pitch.pptx`](./Tendere-AI-Pitch.pptx)
 - **Try it locally:** `python3 engine.py` (add `ANTHROPIC_API_KEY` for the live Claude layer)
