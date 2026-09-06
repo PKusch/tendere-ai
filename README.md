@@ -8,6 +8,8 @@
 
 *Reads a role's job spec. Maps it against a consultant's real profile. Builds a learning plan that aims them at where demand actually is — **before** the bench, not after.*
 
+[**→ Try the live dashboard**](https://pkusch.github.io/tendere-ai/) · no install, synthetic data
+
 </div>
 
 ---
@@ -161,7 +163,9 @@ human. (Swap models for lower latency with `TENDERE_MODEL=claude-sonnet-4-6`.)
 
 **The dashboard** — `dashboard.jsx`, the same logic as a React component. Toggle
 between the two roles and the verdict recomputes live; the weekly-hours control
-re-paces the plan. Drop it into a React app or a JSX sandbox.
+re-paces the plan. It is hosted at
+[pkusch.github.io/tendere-ai](https://pkusch.github.io/tendere-ai/), built from
+`web/` on every push to `main`; or drop it into a React app or a JSX sandbox.
 
 ---
 
