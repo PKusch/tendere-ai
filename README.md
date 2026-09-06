@@ -161,6 +161,17 @@ Now Claude parses the spec and gives its second opinion: confidence and citation
 appear inline, and anywhere the model disagrees with the rules is flagged for a
 human. (Swap models for lower latency with `TENDERE_MODEL=claude-sonnet-4-6`.)
 
+**Check the second opinion is worth having** — with the key set:
+
+```bash
+python3 eval/calibrate.py --runs 3
+```
+
+It reports agreement with the rules per confidence level (a calibrated classifier
+is wrong more often when it says `low`), whether every citation is a verbatim
+quote from the profile, and how often a label flips between passes. Without a
+key it says so and exits, rather than printing a table that looks like a result.
+
 **The dashboard** — `dashboard.jsx`, the same logic as a React component. Toggle
 between the two roles and the verdict recomputes live; the weekly-hours control
 re-paces the plan. It is hosted at
@@ -175,6 +186,9 @@ re-paces the plan. It is hosted at
 engine.py          the fit-mapping + planning engine (+ Claude parser & classifier)
 dashboard.jsx      the dashboard (same logic, ported)
 requirements.txt   optional — only for the live Claude layer
+eval/
+  cases.json       14 labelled requirement × profile cases, rules as the reference label
+  calibrate.py     is the classifier's confidence worth anything? needs the live model
 data/
   spec.json        job specs as they arrive, plus the parsed stub
   roster.json      consultant profiles — level + recency + evidence
@@ -194,7 +208,7 @@ data/
 
 **Next**
 - [ ] Realistic data slice grounded in public sources (job-postings demand, survey-based profiles, course-catalogue content) + one shared skills taxonomy
-- [ ] Calibration + eval harness for the classifier's confidence
+- [ ] Calibration + eval harness for the classifier's confidence — **harness built, not yet run.** `eval/calibrate.py` scores the second opinion against 14 labelled cases on three things: whether agreement with the rules falls as stated confidence falls, whether every citation is a verbatim quote from the profile, and how often labels flip across repeated passes. It needs the live model, and no key has been available to run it, so no number is claimed here.
 - [ ] Live write-back to Workday / the HR system of record
 - [ ] Calendar integration for genuinely calendar-aware scheduling
 
