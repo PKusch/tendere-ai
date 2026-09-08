@@ -1,0 +1,62 @@
+name: calibrate classifier
+
+# Runs eval/calibrate.py against the live model from a repository secret, so
+# the confidence of the second-opinion classifier can be measured without a
+# key on any laptop. Manual only. The harness's report goes to the job summary
+# and eval/last-run.json is uploaded as an artifact; nothing is committed. A
+# number enters the README only by hand, after reading the run.
+#
+# Secret: ANTHROPIC_API_KEY. The model is the engine's default unless the
+# `model` input is set (it becomes TENDERE_MODEL).
+
+on:
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: "Passes over the 14 cases (flip rate needs more than one)"
+        required: true
+        default: "3"
+      model:
+        description: "Override TENDERE_MODEL (blank = engine default)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      RUNS: ${{ inputs.runs }}
+      MODEL_INPUT: ${{ inputs.model }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: The key is present
+        run: |
+          [ -n "$ANTHROPIC_API_KEY" ] || { echo "::error::ANTHROPIC_API_KEY is not set as a repository secret (Settings → Secrets and variables → Actions)."; exit 1; }
+
+      - run: pip install -q -r requirements.txt
+
+      - name: Calibrate
+        run: |
+          [ -n "$MODEL_INPUT" ] && export TENDERE_MODEL="$MODEL_INPUT"
+          {
+            echo "## calibrate --runs $RUNS (model: ${TENDERE_MODEL:-engine default})"
+            echo '```'
+            python3 eval/calibrate.py --runs "$RUNS"
+            echo '```'
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: calibration-${{ github.run_id }}
+          path: eval/last-run.json
+          retention-days: 90

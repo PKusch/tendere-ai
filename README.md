@@ -171,6 +171,10 @@ It reports agreement with the rules per confidence level (a calibrated classifie
 is wrong more often when it says `low`), whether every citation is a verbatim
 quote from the profile, and how often a label flips between passes. Without a
 key it says so and exits, rather than printing a table that looks like a result.
+The same run is available from GitHub without a key on any machine: Actions →
+*calibrate classifier* → Run workflow reads `ANTHROPIC_API_KEY` from the
+repository's secrets, writes the report to the job summary and uploads
+`eval/last-run.json` as an artifact. It commits nothing.
 
 **The dashboard** — `dashboard.jsx`, the same logic as a React component. Toggle
 between the two roles and the verdict recomputes live; the weekly-hours control
@@ -208,7 +212,7 @@ data/
 
 **Next**
 - [ ] Realistic data slice grounded in public sources (job-postings demand, survey-based profiles, course-catalogue content) + one shared skills taxonomy
-- [ ] Calibration + eval harness for the classifier's confidence — **harness built, not yet run.** `eval/calibrate.py` scores the second opinion against 14 labelled cases on three things: whether agreement with the rules falls as stated confidence falls, whether every citation is a verbatim quote from the profile, and how often labels flip across repeated passes. It needs the live model, and no key has been available to run it, so no number is claimed here.
+- [ ] Calibration + eval harness for the classifier's confidence — **harness built, not yet run.** `eval/calibrate.py` scores the second opinion against 14 labelled cases on three things: whether agreement with the rules falls as stated confidence falls, whether every citation is a verbatim quote from the profile, and how often labels flip across repeated passes. It needs the live model, and no key has been available to run it, so no number is claimed here. The `calibrate classifier` workflow runs it from a repository secret when one is added.
 - [ ] Live write-back to Workday / the HR system of record
 - [ ] Calendar integration for genuinely calendar-aware scheduling
 
