@@ -198,6 +198,9 @@ data/
   roster.json      consultant profiles — level + recency + evidence
   content.json     firm learning content, with coverage flags
   demand.json      high-value demand signals — scarcity, recurrence
+  taxonomy.json    reviewed aliases from profile names to demand names, nothing fuzzy
+tests/
+  test_engine.py   the leadership view's numbers, pinned and run on every push
 ```
 
 ---
@@ -209,9 +212,12 @@ data/
 - [x] LLM second-opinion classifier — calibrated confidence + a citation from the profile; model/rules disagreement flagged for human review, never silently overridden
 - [x] Firm-wide provision-gap view — holes aggregated and ranked across the whole bench
 - [x] Multi-consultant matrix — every open role scored against every benched consultant
+- [x] Bench readiness counted through one reviewed vocabulary — a profile that says "Claude Cowork / GenAI tooling" now counts toward the firm's AI demand, as latent until proven
+- [x] The contrast role is shown but never counted as a firm provision gap
+- [x] Tests on the leadership view, run on every push
 
 **Next**
-- [ ] Realistic data slice grounded in public sources (job-postings demand, survey-based profiles, course-catalogue content) + one shared skills taxonomy
+- [ ] Realistic data slice grounded in public sources (job-postings demand, survey-based profiles, course-catalogue content) + a full shared skills taxonomy — the alias table in `data/taxonomy.json` is the start; mapping onto O*NET or ESCO is not built
 - [ ] Calibration + eval harness for the classifier's confidence — **harness built, not yet run.** `eval/calibrate.py` scores the second opinion against 14 labelled cases on three things: whether agreement with the rules falls as stated confidence falls, whether every citation is a verbatim quote from the profile, and how often labels flip across repeated passes. It needs the live model, and no key has been available to run it, so no number is claimed here. The `calibrate classifier` workflow runs it from a repository secret when one is added.
 - [ ] Live write-back to Workday / the HR system of record
 - [ ] Calendar integration for genuinely calendar-aware scheduling
