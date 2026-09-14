@@ -429,17 +429,26 @@ def portfolio_scan(roster, specs, content_map, demand_map):
     return role_fits, exposure
 
 
+def load_taxonomy():
+    """Profile name -> demand capability name, from data/taxonomy.json."""
+    path = DATA / "taxonomy.json"
+    return json.loads(path.read_text()).get("aliases", {}) if path.exists() else {}
+
+
 def strategic_readiness(roster, demand_map):
     """For each high-value demand signal, how ready is the bench? Counts holders and
-    splits evidenced vs latent (self-taught/partial) by exact capability name. Where
-    no one holds it, that's a pure scarcity/provision gap — reported honestly rather
-    than papered over with a fuzzy name match."""
+    splits evidenced vs latent (self-taught/partial). Names are matched exactly, through
+    the reviewed alias table in data/taxonomy.json and nothing looser. Where no one
+    holds it, that's a pure scarcity/provision gap — reported honestly rather than
+    papered over with a fuzzy name match."""
     consultants = roster["consultants"]
+    aliases = load_taxonomy()
+    canon = lambda name: aliases.get(name, name)
     out = []
     for cap, sig in sorted(demand_map.items(), key=lambda kv: -kv[1].get("value_index", 0)):
         holders = evidenced = latent = 0
         for c in consultants:
-            p = next((e for e in c["profile"] if e["item"] == cap), None)
+            p = next((e for e in c["profile"] if canon(e["item"]) == cap), None)
             if p:
                 holders += 1
                 if p.get("evidence") in WEAK_EVIDENCE:

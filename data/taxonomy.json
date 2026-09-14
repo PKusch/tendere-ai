@@ -1,0 +1,6 @@
+{
+  "_comment": "One shared vocabulary between what the firm's demand signals call a capability and what people's profiles call it. Explicit and reviewed, never a fuzzy match: a wrong alias would claim bench readiness that does not exist. Add a line only when the two names mean the same capability.",
+  "aliases": {
+    "Claude Cowork / GenAI tooling": "Data & AI / GenAI"
+  }
+}

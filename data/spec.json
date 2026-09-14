@@ -8,11 +8,36 @@
       "domain_family": "Financial Services",
       "raw": "- 5+ years as a BA in commercial banking\n- agile certified, worked on nCino platform before\n- familiar with agile delivery lifecycle\n- familiar and worked on Claude Cowork before",
       "parsed_stub": [
-        {"item": "Business Analysis", "type": "capability", "need_level": "deep", "need_recency": "current"},
-        {"item": "Commercial Banking", "type": "domain", "need_level": "deep", "need_recency": "current"},
-        {"item": "Agile / Transformation", "type": "capability", "need_level": "certified", "need_recency": "current"},
-        {"item": "nCino", "type": "platform", "need_level": "experienced", "need_recency": "any"},
-        {"item": "Claude Cowork / GenAI tooling", "type": "platform", "need_level": "familiar", "need_recency": "any"}
+        {
+          "item": "Business Analysis",
+          "type": "capability",
+          "need_level": "deep",
+          "need_recency": "current"
+        },
+        {
+          "item": "Commercial Banking",
+          "type": "domain",
+          "need_level": "deep",
+          "need_recency": "current"
+        },
+        {
+          "item": "Agile / Transformation",
+          "type": "capability",
+          "need_level": "certified",
+          "need_recency": "current"
+        },
+        {
+          "item": "nCino",
+          "type": "platform",
+          "need_level": "experienced",
+          "need_recency": "any"
+        },
+        {
+          "item": "Claude Cowork / GenAI tooling",
+          "type": "platform",
+          "need_level": "familiar",
+          "need_recency": "any"
+        }
       ]
     },
     {
@@ -22,9 +47,21 @@
       "domain_family": "Public Sector",
       "raw": "- BA for a public health transformation programme\n- stakeholder management, process mapping\n- available immediately",
       "parsed_stub": [
-        {"item": "Business Analysis", "type": "capability", "need_level": "deep", "need_recency": "current"},
-        {"item": "Public Health", "type": "domain", "need_level": "deep", "need_recency": "current"}
-      ]
+        {
+          "item": "Business Analysis",
+          "type": "capability",
+          "need_level": "deep",
+          "need_recency": "current"
+        },
+        {
+          "item": "Public Health",
+          "type": "domain",
+          "need_level": "deep",
+          "need_recency": "current"
+        }
+      ],
+      "contrast": true,
+      "contrast_note": "The role a keyword search would suggest. Shown to make the point, not real demand, so it never counts toward the firm's provision gaps."
     }
   ]
 }
