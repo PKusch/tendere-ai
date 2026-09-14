@@ -420,6 +420,10 @@ def portfolio_scan(roster, specs, content_map, demand_map):
     # for, counted across the bench -> the build-or-buy case for capability leadership
     exposure = {}
     for rf in role_fits:
+        # A contrast role is there to show what a keyword search gets wrong. It is
+        # not demand, so it must not rank as something the firm should build.
+        if rf["spec"].get("contrast"):
+            continue
         for f in rf["fits"]:
             for r in f["holes"]:
                 item = r["req"]["item"]
