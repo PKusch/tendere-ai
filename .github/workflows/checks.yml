@@ -1,0 +1,27 @@
+name: checks
+
+# The leadership view's numbers are pinned in tests/test_engine.py. This runs
+# them, and the whole demo offline, on every push, so a data edit that breaks
+# the readiness count or lets a contrast role back into the gaps fails here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - name: Tests
+        run: python -m unittest discover -s tests -v
+      - name: Demo runs offline
+        run: python engine.py > /dev/null
