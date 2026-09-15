@@ -159,7 +159,7 @@ python3 engine.py
 
 Now Claude parses the spec and gives its second opinion: confidence and citations
 appear inline, and anywhere the model disagrees with the rules is flagged for a
-human. (Swap models for lower latency with `TENDERE_MODEL=claude-sonnet-4-6`.)
+human. (Swap models for lower latency with `TENDERE_MODEL=claude-sonnet-5`.)
 
 **Check the second opinion is worth having** — with the key set:
 

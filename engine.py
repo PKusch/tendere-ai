@@ -25,8 +25,10 @@ RANK = {"none": 0, "familiar": 1, "moderate": 2, "experienced": 3, "deep": 4, "c
 WEAK_EVIDENCE = {"self-taught", "partial", "none"}
 
 # Claude does the one genuinely AI step: reading a messy free-text spec.
-# Override at the venue (e.g. claude-sonnet-4-6 for lower latency) via TENDERE_MODEL.
-MODEL = os.environ.get("TENDERE_MODEL", "claude-opus-4-8")
+# Override at the venue (e.g. claude-sonnet-5 for lower latency) via TENDERE_MODEL.
+# claude-opus-4-8 and claude-sonnet-4-6 were this repo's original defaults; both are
+# from a retired model generation and were replaced 2026-09-15 with the current one.
+MODEL = os.environ.get("TENDERE_MODEL", "claude-opus-5")
 
 # Tool schema forces Claude to return structured requirements (no JSON-in-prose
 # parsing). need_level / need_recency match the deterministic stub's vocabulary.
