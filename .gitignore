@@ -6,3 +6,4 @@ node_modules/
 .vscode/
 .idea/
 .npm-cache/
+eval/last-run.json
