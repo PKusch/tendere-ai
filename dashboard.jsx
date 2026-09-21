@@ -239,6 +239,7 @@ export default function TendereAI() {
         .bc-tab { cursor: pointer; border: 1px solid ${C.hair}; background: ${C.card};
           border-radius: 9px; padding: 11px 14px; text-align: left; transition: border-color .15s, box-shadow .15s; font-family: ${SANS}; }
         .bc-tab:hover { border-color: ${C.hairStrong}; }
+        @media (prefers-reduced-motion: reduce) { .bc-fade { animation: none; } .bc-tab { transition: none; } }
         .bc-tab:focus-visible { outline: 2px solid ${C.signal}; outline-offset: 2px; }
         .bc-step { cursor: pointer; width: 26px; height: 26px; border-radius: 6px; border: 1px solid ${C.hairStrong};
           background: ${C.card}; color: ${C.ink}; font-size: 15px; line-height: 1; font-family: ${MONO}; }
