@@ -295,7 +295,7 @@ export default function TendereAI() {
             {Object.values(SPECS).map((s) => {
               const active = s.id === specId;
               return (
-                <button key={s.id} className="bc-tab" onClick={() => setSpecId(s.id)}
+                <button key={s.id} className="bc-tab" onClick={() => setSpecId(s.id)} aria-pressed={active}
                   style={{ borderColor: active ? C.signal : C.hair, boxShadow: active ? `0 0 0 1px ${C.signal}` : "none",
                     background: active ? C.signalSoft : C.card }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
@@ -380,7 +380,7 @@ export default function TendereAI() {
               This is the role a keyword search would surface: it matches on <b>Business Analysis</b> and availability, but it's the wrong
               domain family and off Maya's trajectory. Compass doesn't build a plan toward a misfit — it points to where she should go instead.
             </div>
-            <button className="bc-tab" onClick={() => setSpecId("ROLE-Z")}
+            <button className="bc-tab" onClick={() => setSpecId("ROLE-Z")} aria-pressed={specId === "ROLE-Z"}
               style={{ marginTop: 14, display: "inline-block", width: "auto", borderColor: C.signal, background: C.signalSoft }}>
               <span style={{ fontWeight: 700, fontSize: 13.5, color: C.signal }}>→ See the right fit: BA — Commercial Banking, Client Z</span>
             </button>
