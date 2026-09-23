@@ -25,3 +25,5 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Demo runs offline
         run: python engine.py > /dev/null
+      - name: No stale model name in the docs
+        run: python scripts/check_model_name.py

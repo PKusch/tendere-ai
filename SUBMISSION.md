@@ -39,7 +39,7 @@ can't prove it."* Tendere refuses that premise.
 - **Engine — Python, zero-dependency core** (`engine.py`). A deterministic pipeline:
   parse → diff (level + recency + evidence) → classify → plan → schedule → Workday
   write-back → firm provision-gap scan.
-- **The AI layer — Claude (`claude-opus-4-8`).** Two places genuinely need judgment:
+- **The AI layer — Claude (`claude-opus-5` by default, overridable with `TENDERE_MODEL`).** Two places genuinely need judgment:
   - **Spec parsing** — Claude turns messy free-text specs into structured requirements
     with a *forced tool call*, normalising to the firm's own vocabulary so matches don't
     silently break.
