@@ -1,4 +1,5 @@
 """The leadership view's numbers, pinned, so a data edit that breaks them fails CI."""
+import importlib.util
 import json
 import sys
 import unittest
@@ -52,6 +53,32 @@ class LeadershipView(unittest.TestCase):
         out = buf.getvalue()
         self.assertIn("STRATEGIC DEMAND READINESS", out)
         self.assertNotIn("Public Health: 2 of 2", out)
+
+
+def _load_calibrate():
+    spec = importlib.util.spec_from_file_location("calibrate", ROOT / "eval" / "calibrate.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+class CalibrateArguments(unittest.TestCase):
+    """--runs must be at least 1: 0 or a negative left passes empty and passes[-1]
+    raised IndexError once a key was set. It is now refused at the argument, which
+    happens before the key check, so this needs no key."""
+
+    def test_runs_below_one_is_refused(self):
+        cal = _load_calibrate()
+        for bad in ("0", "-3"):
+            argv = ["calibrate.py", "--runs", bad]
+            saved = sys.argv
+            sys.argv = argv
+            try:
+                with self.assertRaises(SystemExit) as cm:
+                    cal.main()
+                self.assertEqual(cm.exception.code, 2, bad)
+            finally:
+                sys.argv = saved
 
 
 if __name__ == "__main__":

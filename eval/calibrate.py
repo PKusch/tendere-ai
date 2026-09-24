@@ -55,9 +55,18 @@ def citation_ok(row):
     return cite in haystack
 
 
+def _positive_int(v):
+    # --runs 0 or a negative leaves passes empty, and passes[-1] below is then an
+    # IndexError once a key is set. Reject it at the boundary with a plain message.
+    n = int(v)
+    if n < 1:
+        raise argparse.ArgumentTypeError(f"must be at least 1, not {n}")
+    return n
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--runs", type=int, default=1)
+    ap.add_argument("--runs", type=_positive_int, default=1)
     args = ap.parse_args()
 
     rows, content_map = rows_for_cases()
