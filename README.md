@@ -227,6 +227,14 @@ tests/
 > [!WARNING]
 > **The data is synthetic — and that's the point.** "Maya R." is a fictional persona; the providers and content are placeholders; the demand signals are illustrative. The *private* data a firm holds on its people is exactly what this stands in for — so a public prototype models it rather than uses it. No real people, clients, or proprietary content.
 
+## Tests
+
+```bash
+python -m unittest discover -s tests
+```
+
+Five tests pin the leadership view's numbers, so a data edit that breaks them fails CI.
+
 ---
 
 ## ⚖️ License
@@ -241,11 +249,3 @@ tests/
 <sub>A prototype, built from a real frustration with how consulting staffs its people.</sub>
 
 </div>
-
-## Tests
-
-```bash
-python -m unittest discover -s tests
-```
-
-Five tests pin the leadership view's numbers, so a data edit that breaks them fails CI.
