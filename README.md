@@ -241,3 +241,11 @@ tests/
 <sub>A prototype, built from a real frustration with how consulting staffs its people.</sub>
 
 </div>
+
+## Tests
+
+```bash
+python -m unittest discover -s tests
+```
+
+Five tests pin the leadership view's numbers, so a data edit that breaks them fails CI.
