@@ -1,8 +1,10 @@
 """The leadership view's numbers, pinned, so a data edit that breaks them fails CI."""
 import importlib.util
+import os
 import json
 import sys
 import unittest
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -117,6 +119,49 @@ class Verdict(unittest.TestCase):
     def test_the_wrong_domain_family_beats_a_keyword_match(self):
         title, _ = self.verdict("MET", "MET", spec={"domain_family": "healthcare"})
         self.assertEqual(title, "SURFACE MATCH — STRATEGIC MISFIT")
+
+
+class Classify(unittest.TestCase):
+    """The three gap types, from level, recency and evidence, and the order they win in."""
+
+    def status(self, need, have=None, coverage=None):
+        profile = {"X": have} if have else {}
+        content = {"X": {"coverage": coverage}} if coverage else {}
+        return engine.classify({"item": "X", "need_level": need}, profile, content)[0]
+
+    def test_held_current_and_evidenced_is_met(self):
+        self.assertEqual(self.status("experienced", {"item": "X", "level": "deep", "recency": "current", "evidence": "certified"}), "MET")
+
+    def test_held_and_current_but_unproven_is_a_latent_strength(self):
+        self.assertEqual(self.status("experienced", {"item": "X", "level": "deep", "recency": "current", "evidence": "self-taught"}), "LATENT_STRENGTH")
+
+    def test_stale_beats_weak_evidence(self):
+        # old and unproven needs a refresh, not a pat on the back
+        self.assertEqual(self.status("moderate", {"item": "X", "level": "deep", "recency": "stale", "evidence": "self-taught"}), "STALE_THIN")
+
+    def test_below_the_needed_level_is_thin_even_when_current(self):
+        self.assertEqual(self.status("deep", {"item": "X", "level": "familiar", "recency": "current", "evidence": "certified"}), "STALE_THIN")
+
+    def test_not_held_splits_on_whether_the_firm_can_teach_it(self):
+        self.assertEqual(self.status("moderate", coverage="full"), "LEARNABLE")
+        self.assertEqual(self.status("moderate", coverage="refresh"), "LEARNABLE")
+        self.assertEqual(self.status("moderate", coverage="none"), "NO_CONTENT")
+        self.assertEqual(self.status("moderate"), "NO_CONTENT", "no content record at all is a provision gap, not learnable")
+
+
+class DiffMerging(unittest.TestCase):
+    def test_a_capability_named_twice_keeps_the_higher_need(self):
+        consultant = {"profile": [{"item": "Agile", "level": "moderate", "recency": "current", "evidence": "certified"}]}
+        spec = {"raw": "", "parsed_stub": [
+            {"item": "Agile", "type": "capability", "need_level": "familiar", "need_recency": "current"},
+            {"item": "Agile", "type": "capability", "need_level": "deep", "need_recency": "current"},
+        ]}
+        with mock.patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("ANTHROPIC_API_KEY", None)   # offline: use the stub, never the network
+            rows, _ = engine.diff(consultant, spec, {})
+        self.assertEqual(len(rows), 1, "two mentions are one requirement")
+        self.assertEqual(rows[0]["req"]["need_level"], "deep")
+        self.assertEqual(rows[0]["status"], "STALE_THIN", "judged against the higher need: moderate is below deep")
 
 
 if __name__ == "__main__":
