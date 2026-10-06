@@ -233,7 +233,7 @@ tests/
 python -m unittest discover -s tests
 ```
 
-Five tests pin the leadership view's numbers, so a data edit that breaks them fails CI.
+Eleven tests pin the leadership view's numbers and what a verdict may claim, so a data edit or a logic change that breaks them fails CI.
 
 ---
 

@@ -276,13 +276,18 @@ def verdict(consultant, spec, rows):
     voids = [r for r in rows if r["status"] == "NO_CONTENT"]
     stale = [r for r in rows if r["status"] == "STALE_THIN"]
     met_core = [r for r in rows if r["status"] in ("MET", "LATENT_STRENGTH")]
+    # Every row that is not met is a gap, whatever kind. "Spec met" used to be said
+    # whenever something was met and there were no stale rows or provision holes, so a
+    # person who met one requirement and had to *learn* the other three was told the
+    # spec was met.
+    gaps = [r for r in rows if r["status"] not in ("MET", "LATENT_STRENGTH")]
 
     if not fam_match:
         return ("SURFACE MATCH — STRATEGIC MISFIT",
                 "A skill keyword matches, but the domain family is wrong "
                 f"({spec['domain_family']} vs this person's background). "
                 "Off-trajectory. Don't auto-route here.")
-    if met_core and not voids and stale:
+    if met_core and not voids and gaps:
         return ("STRONG FIT — NARROW, CLOSEABLE GAPS",
                 "Right domain, most of the spec already met. Gaps are a currency refresh "
                 "and a platform — closeable in the runway. Tag, prepare, place ready.")

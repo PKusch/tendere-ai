@@ -81,5 +81,43 @@ class CalibrateArguments(unittest.TestCase):
                 sys.argv = saved
 
 
+def _rows(*statuses):
+    return [{"req": {"item": f"item{i}"}, "status": st} for i, st in enumerate(statuses)]
+
+
+class Verdict(unittest.TestCase):
+    """What a verdict may claim. Each branch is pinned, because 'spec met' is a
+    sentence a delivery lead acts on."""
+
+    consultant = {"profile": [{"family": "banking"}], "ambitions": []}
+    spec = {"domain_family": "banking"}
+
+    def verdict(self, *statuses, spec=None):
+        return engine.verdict(self.consultant, spec or self.spec, _rows(*statuses))
+
+    def test_spec_met_is_only_said_when_nothing_is_missing(self):
+        self.assertEqual(self.verdict("MET", "LATENT_STRENGTH"), ("STRONG FIT", "Right domain, spec met."))
+
+    def test_learnable_gaps_are_not_a_met_spec(self):
+        # one requirement met and three still to be learned used to read "spec met"
+        title, gloss = self.verdict("MET", "LEARNABLE", "LEARNABLE", "LEARNABLE")
+        self.assertEqual(title, "STRONG FIT — NARROW, CLOSEABLE GAPS")
+        self.assertNotIn("spec met", gloss)
+
+    def test_stale_gaps_are_closeable(self):
+        self.assertEqual(self.verdict("MET", "STALE_THIN")[0], "STRONG FIT — NARROW, CLOSEABLE GAPS")
+
+    def test_a_gap_with_no_firm_content_is_named_as_a_provision_hole(self):
+        self.assertEqual(self.verdict("MET", "NO_CONTENT")[0], "STRONG FIT — GAPS INCLUDE A PROVISION HOLE")
+        self.assertEqual(self.verdict("MET", "STALE_THIN", "NO_CONTENT")[0], "STRONG FIT — GAPS INCLUDE A PROVISION HOLE")
+
+    def test_nothing_met_is_a_stretch(self):
+        self.assertEqual(self.verdict("LEARNABLE", "NO_CONTENT")[0], "STRETCH FIT")
+
+    def test_the_wrong_domain_family_beats_a_keyword_match(self):
+        title, _ = self.verdict("MET", "MET", spec={"domain_family": "healthcare"})
+        self.assertEqual(title, "SURFACE MATCH — STRATEGIC MISFIT")
+
+
 if __name__ == "__main__":
     unittest.main()
