@@ -127,13 +127,16 @@ function runDiff(spec) {
 function verdict(spec, rows) {
   const famMatch = new Set(MAYA.profile.map((e) => e.family)).has(spec.domainFamily);
   const voids = rows.filter((r) => r.status === "NO_CONTENT");
-  const stale = rows.filter((r) => r.status === "STALE_THIN");
   const metCore = rows.filter((r) => r.status === "MET" || r.status === "LATENT_STRENGTH");
+  // Every row that is not met is a gap, whatever kind: "spec met" is only said when
+  // there are none. It used to look only at stale rows, so a person who met one
+  // requirement and had to learn the rest was told the spec was met (same fix as engine.py).
+  const gaps = rows.filter((r) => r.status !== "MET" && r.status !== "LATENT_STRENGTH");
   if (!famMatch) return { tone: "bad", title: "Surface match — strategic misfit",
     gloss: `A skill keyword matches, but the domain family is wrong (${spec.domainFamily} vs Maya's Financial Services background). Off-trajectory — don't auto-route here.` };
   if (metCore.length && voids.length) return { tone: "good", title: "Strong fit — gaps include a provision hole",
     gloss: "Right domain, most of the spec already met. One gap has no firm content — plan around it." };
-  if (metCore.length && stale.length) return { tone: "good", title: "Strong fit — narrow, closeable gaps",
+  if (metCore.length && gaps.length) return { tone: "good", title: "Strong fit — narrow, closeable gaps",
     gloss: "Right domain, most of the spec met. Gaps close inside the runway. Tag, prepare, place ready." };
   if (metCore.length) return { tone: "good", title: "Strong fit", gloss: "Right domain, spec met." };
   return { tone: "warn", title: "Stretch fit", gloss: "Right direction; meaningful gaps." };

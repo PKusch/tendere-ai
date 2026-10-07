@@ -233,7 +233,7 @@ tests/
 python -m unittest discover -s tests
 ```
 
-Seventeen tests pin the leadership view's numbers, how a gap is classified, and what a verdict may claim, so a data edit or a logic change that breaks them fails CI.
+Eighteen tests pin the leadership view's numbers, how a gap is classified, what a verdict may claim, and that the dashboard says the same as the engine, so a data edit or a logic change that breaks them fails CI.
 
 ---
 

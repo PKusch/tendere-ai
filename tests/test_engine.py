@@ -1,6 +1,9 @@
 """The leadership view's numbers, pinned, so a data edit that breaks them fails CI."""
 import importlib.util
 import os
+import itertools
+import shutil
+import subprocess
 import json
 import sys
 import unittest
@@ -162,6 +165,40 @@ class DiffMerging(unittest.TestCase):
         self.assertEqual(len(rows), 1, "two mentions are one requirement")
         self.assertEqual(rows[0]["req"]["need_level"], "deep")
         self.assertEqual(rows[0]["status"], "STALE_THIN", "judged against the higher need: moderate is below deep")
+
+
+@unittest.skipUnless(shutil.which("node"), "needs node to run the dashboard's own function")
+class DashboardParity(unittest.TestCase):
+    """dashboard.jsx carries its own JavaScript copy of verdict(). The engine's was fixed
+    to stop saying 'spec met' while a gap exists and the dashboard's was not, so the live
+    page kept saying it. This runs the dashboard's function and checks it agrees with the
+    engine for every combination of statuses."""
+
+    STATUSES = ["MET", "LATENT_STRENGTH", "STALE_THIN", "LEARNABLE", "NO_CONTENT"]
+
+    @classmethod
+    def setUpClass(cls):
+        src = (ROOT / "dashboard.jsx").read_text()
+        start = src.index("function verdict(spec, rows) {")
+        end = src.index("\n}\n", start) + 3
+        cls.js_fn = src[start:end]
+
+    def js_title(self, statuses):
+        rows = json.dumps([{"status": st} for st in statuses])
+        code = ('const MAYA={profile:[{family:"banking"}]};' + self.js_fn +
+                f'console.log(verdict({{domainFamily:"banking"}},{rows}).title)')
+        out = subprocess.run(["node", "-e", code], capture_output=True, text=True, check=True)
+        return out.stdout.strip()
+
+    def test_the_dashboard_and_the_engine_give_the_same_title_for_every_combination(self):
+        consultant, spec = {"profile": [{"family": "banking"}], "ambitions": []}, {"domain_family": "banking"}
+        checked = 0
+        for n in (1, 2, 3):
+            for combo in itertools.product(self.STATUSES, repeat=n):
+                engine_title, _ = engine.verdict(consultant, spec, _rows(*combo))
+                self.assertEqual(self.js_title(combo).casefold(), engine_title.casefold(), combo)
+                checked += 1
+        self.assertEqual(checked, 5 + 25 + 125)
 
 
 if __name__ == "__main__":
