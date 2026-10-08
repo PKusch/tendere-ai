@@ -15,12 +15,19 @@ permissions:
 
 jobs:
   checks:
+    # The README says "Python 3, nothing to install", so the supported range is tested
+    # rather than one version: 3.10 is the oldest still receiving fixes.
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13"]
+    name: python ${{ matrix.python }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
-          python-version: "3.13"
+          python-version: ${{ matrix.python }}
       - name: Tests
         run: python -m unittest discover -s tests -v
       - name: Demo runs offline

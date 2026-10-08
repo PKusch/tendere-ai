@@ -134,7 +134,7 @@ search bar that counts keywords.
 
 ## ▶️ Run it
 
-**The engine** — Python 3, nothing to install:
+**The engine** — Python 3.10 or newer (tested on 3.10 to 3.13), nothing to install:
 
 ```bash
 python3 engine.py
