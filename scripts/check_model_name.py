@@ -20,7 +20,7 @@ RETIRED = ["claude-opus-4-8", "claude-sonnet-4-6"]
 
 
 def current_default() -> str:
-    m = re.search(r'MODEL = os\.environ\.get\("TENDERE_MODEL", "([^"]+)"\)', ENGINE.read_text())
+    m = re.search(r'MODEL = os\.environ\.get\("TENDERE_MODEL", "([^"]+)"\)', ENGINE.read_text(encoding="utf-8"))
     if not m:
         raise SystemExit("could not find the MODEL default in engine.py")
     return m.group(1)

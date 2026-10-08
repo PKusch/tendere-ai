@@ -29,7 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import engine  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
-BANK = json.loads((HERE / "cases.json").read_text())
+BANK = json.loads((HERE / "cases.json").read_text(encoding="utf-8"))
 
 
 def rows_for_cases():
@@ -142,7 +142,7 @@ def main():
         "high_confidence_disagreements": hi_wrong,
         "citations_ok": f"{len(good)}/{len(cited)}",
     }
-    (HERE / "last-run.json").write_text(json.dumps(result, indent=2) + "\n")
+    (HERE / "last-run.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(f"\nWritten to eval/last-run.json\n")
     return 0
 

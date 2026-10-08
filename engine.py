@@ -19,7 +19,7 @@ import os
 from pathlib import Path
 
 DATA = Path(__file__).parent / "data"
-load = lambda n: json.loads((DATA / f"{n}.json").read_text())
+load = lambda n: json.loads((DATA / f"{n}.json").read_text(encoding="utf-8"))
 
 RANK = {"none": 0, "familiar": 1, "moderate": 2, "experienced": 3, "deep": 4, "certified": 4}
 WEAK_EVIDENCE = {"self-taught", "partial", "none"}
@@ -443,7 +443,7 @@ def portfolio_scan(roster, specs, content_map, demand_map):
 def load_taxonomy():
     """Profile name -> demand capability name, from data/taxonomy.json."""
     path = DATA / "taxonomy.json"
-    return json.loads(path.read_text()).get("aliases", {}) if path.exists() else {}
+    return json.loads(path.read_text(encoding="utf-8")).get("aliases", {}) if path.exists() else {}
 
 
 def strategic_readiness(roster, demand_map):

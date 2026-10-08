@@ -16,7 +16,7 @@ import engine  # noqa: E402
 
 
 def load(name):
-    return json.loads((ROOT / "data" / name).read_text())
+    return json.loads((ROOT / "data" / name).read_text(encoding="utf-8"))
 
 
 class LeadershipView(unittest.TestCase):
@@ -178,7 +178,7 @@ class DashboardParity(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        src = (ROOT / "dashboard.jsx").read_text()
+        src = (ROOT / "dashboard.jsx").read_text(encoding="utf-8")
         start = src.index("function verdict(spec, rows) {")
         end = src.index("\n}\n", start) + 3
         cls.js_fn = src[start:end]
@@ -187,7 +187,7 @@ class DashboardParity(unittest.TestCase):
         rows = json.dumps([{"status": st} for st in statuses])
         code = ('const MAYA={profile:[{family:"banking"}]};' + self.js_fn +
                 f'console.log(verdict({{domainFamily:"banking"}},{rows}).title)')
-        out = subprocess.run(["node", "-e", code], capture_output=True, text=True, check=True)
+        out = subprocess.run(["node", "-e", code], capture_output=True, text=True, encoding="utf-8", check=True)
         return out.stdout.strip()
 
     def test_the_dashboard_and_the_engine_give_the_same_title_for_every_combination(self):
@@ -199,6 +199,23 @@ class DashboardParity(unittest.TestCase):
                 self.assertEqual(self.js_title(combo).casefold(), engine_title.casefold(), combo)
                 checked += 1
         self.assertEqual(checked, 5 + 25 + 125)
+
+
+class NonUtf8DefaultEncoding(unittest.TestCase):
+    """The data files are UTF-8 and full of dashes and accents. The engine read them with the
+    platform default, so on a machine whose default is not UTF-8 (ASCII here, a Windows code
+    page there) it could not even load its own data. The console is kept UTF-8 so this
+    isolates file reading from what is printed."""
+
+    def test_the_engine_loads_its_data_under_an_ascii_default(self):
+        env = {**os.environ, "LC_ALL": "C", "PYTHONUTF8": "0", "PYTHONCOERCECLOCALE": "0", "PYTHONIOENCODING": "utf-8"}
+        probe = subprocess.run([sys.executable, "-c", "import locale; print(locale.getpreferredencoding(False))"],
+                               env=env, capture_output=True, text=True)
+        self.assertNotIn("utf", probe.stdout.lower(), "the test proves nothing if the default is UTF-8")
+        r = subprocess.run([sys.executable, str(ROOT / "engine.py")], cwd=ROOT, env=env,
+                           capture_output=True, text=True, encoding="utf-8")
+        self.assertEqual(r.returncode, 0, r.stderr[-300:])
+        self.assertIn("VERDICT", r.stdout)
 
 
 if __name__ == "__main__":
