@@ -1,0 +1,16 @@
+name: Wrong gap or level
+description: The engine shows a gap, level or recency that is not right
+body:
+  - type: input
+    id: person
+    attributes:
+      label: Which person or capability?
+      description: Use the sample data, never real people.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What does it show, and what should it show?
+    validations:
+      required: true
