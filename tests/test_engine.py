@@ -218,5 +218,36 @@ class NonUtf8DefaultEncoding(unittest.TestCase):
         self.assertIn("VERDICT", r.stdout)
 
 
+class EscoMapping(unittest.TestCase):
+    """The public-vocabulary mapping covers every capability and never invents a link."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.maps = load("esco_map.json")["mappings"]
+
+    def test_every_capability_is_mapped_or_marked_unmatched(self):
+        names = {s["capability"] for s in load("demand.json")["signals"]}
+        for c in load("roster.json")["consultants"]:
+            names |= {p["item"] for p in c["profile"]}
+        self.assertEqual(sorted(names - set(self.maps)), [])
+
+    def test_each_entry_has_links_or_a_reason_not_both_empty(self):
+        for name, m in self.maps.items():
+            self.assertTrue(bool(m.get("esco")) != bool(m.get("no_match")), name)
+
+    def test_links_are_esco_skill_uris(self):
+        import re
+        pat = re.compile(r"^http://data\.europa\.eu/esco/skill/[0-9a-f-]{36}$")
+        for name, m in self.maps.items():
+            for link in m.get("esco", []):
+                self.assertRegex(link["uri"], pat, name)
+
+    def test_no_stale_entries(self):
+        names = {s["capability"] for s in load("demand.json")["signals"]}
+        for c in load("roster.json")["consultants"]:
+            names |= {p["item"] for p in c["profile"]}
+        self.assertEqual(sorted(set(self.maps) - names), [])
+
+
 if __name__ == "__main__":
     unittest.main()

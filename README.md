@@ -217,7 +217,8 @@ tests/
 - [x] Tests on the leadership view, run on every push
 
 **Next**
-- [ ] Realistic data slice grounded in public sources (job-postings demand, survey-based profiles, course-catalogue content) + a full shared skills taxonomy — the alias table in `data/taxonomy.json` is the start; mapping onto O*NET or ESCO is not built
+- [x] First public-vocabulary step — `data/esco_map.json` points each firm capability at the matching ESCO skills (looked up and hand-reviewed 2026-10-14), and says plainly where ESCO has nothing: it has no generative-AI skill and does not model security clearance, so the firm's two most-wanted items sit outside the public vocabulary
+- [ ] Realistic data slice grounded in public sources (job-postings demand, survey-based profiles, course-catalogue content) — the ESCO mapping is built, but the engine does not yet read it and O*NET is not mapped
 - [ ] Calibration + eval harness for the classifier's confidence — **harness built, not yet run.** `eval/calibrate.py` scores the second opinion against 14 labelled cases on three things: whether agreement with the rules falls as stated confidence falls, whether every citation is a verbatim quote from the profile, and how often labels flip across repeated passes. It needs the live model, and no key has been available to run it, so no number is claimed here. The `calibrate classifier` workflow runs it from a repository secret when one is added.
 - [ ] Live write-back to Workday / the HR system of record
 - [ ] Calendar integration for genuinely calendar-aware scheduling
@@ -233,7 +234,7 @@ tests/
 python -m unittest discover -s tests
 ```
 
-Nineteen tests pin the leadership view's numbers, how a gap is classified, what a verdict may claim, and that the dashboard says the same as the engine, so a data edit or a logic change that breaks them fails CI.
+Twenty-three tests pin the leadership view's numbers, that the ESCO mapping covers every capability, how a gap is classified, what a verdict may claim, and that the dashboard says the same as the engine, so a data edit or a logic change that breaks them fails CI.
 
 ---
 

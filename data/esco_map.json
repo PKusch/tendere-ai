@@ -1,0 +1,96 @@
+{
+  "_comment": "Each firm capability or profile item pointed at the ESCO (European Commission skills classification) skills that mean the same thing. Looked up in ESCO's public search on 2026-10-14 and reviewed by hand: a close-but-wrong match is worse than none. 'no_match' says why nothing fits, so a gap in the public vocabulary is visible instead of silently papered over.",
+  "source": "https://esco.ec.europa.eu",
+  "mappings": {
+    "Business Analysis": {
+      "esco": [
+        {
+          "label": "business analysis",
+          "uri": "http://data.europa.eu/esco/skill/633a3637-2c6b-40ae-ac38-289eb2a62aa6"
+        }
+      ]
+    },
+    "Agile / Transformation": {
+      "esco": [
+        {
+          "label": "Agile project management",
+          "uri": "http://data.europa.eu/esco/skill/0a9acb6b-1139-4be9-b431-3a80a959f2f4"
+        }
+      ],
+      "note": "Covers Agile only; ESCO has no transformation-programme skill."
+    },
+    "Core Banking": {
+      "esco": [
+        {
+          "label": "banking activities",
+          "uri": "http://data.europa.eu/esco/skill/3c209873-c757-47bb-91b5-9b6dc05df116"
+        }
+      ]
+    },
+    "Commercial Banking": {
+      "esco": [
+        {
+          "label": "banking activities",
+          "uri": "http://data.europa.eu/esco/skill/3c209873-c757-47bb-91b5-9b6dc05df116"
+        }
+      ],
+      "note": "ESCO does not split retail, commercial and core banking, so both map to the same skill."
+    },
+    "Data & AI / GenAI": {
+      "esco": [
+        {
+          "label": "principles of artificial intelligence",
+          "uri": "http://data.europa.eu/esco/skill/e465a154-93f7-4973-9ce1-31659fe16dd2"
+        },
+        {
+          "label": "utilise machine learning",
+          "uri": "http://data.europa.eu/esco/skill/8369c2d6-c100-4cf6-bd83-9668d8678433"
+        }
+      ],
+      "note": "Partial: nothing in ESCO names generative AI, so the part the firm wants most is not in the public vocabulary."
+    },
+    "Claude Cowork / GenAI tooling": {
+      "no_match": "ESCO has no skill for generative-AI tools; searching 'generative AI' returned unrelated skills."
+    },
+    "Cloud Architecture": {
+      "esco": [
+        {
+          "label": "cloud technologies",
+          "uri": "http://data.europa.eu/esco/skill/bd14968e-e409-45af-b362-3495ed7b10e0"
+        }
+      ],
+      "note": "Technology awareness only; ESCO has no architecture-design skill for cloud."
+    },
+    "Security Clearance": {
+      "no_match": "A government vetting status, not a skill; ESCO does not model it."
+    },
+    "Delivery Management": {
+      "esco": [
+        {
+          "label": "ICT project management",
+          "uri": "http://data.europa.eu/esco/skill/94dd823c-148e-4614-a6e8-99249b16357d"
+        }
+      ]
+    },
+    "Cyber / Security": {
+      "esco": [
+        {
+          "label": "ICT security standards",
+          "uri": "http://data.europa.eu/esco/skill/3ff589b7-68df-4ea5-ae41-b395bdb2378f"
+        },
+        {
+          "label": "identify ICT security risks",
+          "uri": "http://data.europa.eu/esco/skill/fe1c2b32-7fe9-4668-affa-07ff658a68cf"
+        }
+      ]
+    },
+    "Regulatory / Compliance": {
+      "esco": [
+        {
+          "label": "ensure ongoing compliance with regulations",
+          "uri": "http://data.europa.eu/esco/skill/1c7c161d-1c78-4098-b28d-147857d44699"
+        }
+      ]
+    }
+  }
+}
