@@ -10,6 +10,10 @@
 
 [**→ Try the live dashboard**](https://pkusch.github.io/tendere-ai/) · no install, synthetic data
 
+<br />
+
+<img src="docs/screenshots/dashboard.jpg" width="720" alt="The Tendere dashboard: a consultant, a role, the spec as received, a fit map with a marker per capability, and the learning plan built from it" />
+
 </div>
 
 ---
@@ -85,6 +89,18 @@ for a human — never silently resolved. Honest means auditable.
 **It closes the loop.** Completed effort is credited (modelled as a Workday
 write-back) and lands on the profile — `stale → current`, `self-taught →
 evidenced`. The work compounds instead of evaporating.
+
+---
+
+## 🖼️ What comes out
+
+The same page, further down: the plan laid out week by week around a client calendar, the effort credited back to the person's profile, and the one thing leadership needs to see, a skill that is in demand across accounts and that the firm has nothing to teach.
+
+<div align="center">
+
+<img src="docs/screenshots/dashboard-plan.jpg" width="720" alt="The weekly schedule, the Workday credit for each gap, and a firm provision gap flagged for capability leadership" />
+
+</div>
 
 ---
 
