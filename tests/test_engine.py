@@ -39,6 +39,11 @@ class LeadershipView(unittest.TestCase):
         self.assertEqual((ai["holders"], ai["evidenced"], ai["latent"]), (1, 0, 1))
         self.assertEqual(rows["Cloud Architecture"]["holders"], 0)
 
+    def test_each_readiness_row_carries_its_public_vocabulary(self):
+        rows = {r["capability"]: r for r in engine.strategic_readiness(self.roster, self.demand_map)}
+        self.assertEqual(rows["Cloud Architecture"]["public_vocabulary"], engine.public_vocabulary("Cloud Architecture"))
+        self.assertTrue(all("public_vocabulary" in r for r in rows.values()))
+
     def test_the_contrast_role_is_not_a_provision_gap(self):
         _, exposure = engine.portfolio_scan(self.roster, self.specs, self.content_map, self.demand_map)
         self.assertNotIn("Public Health", exposure)

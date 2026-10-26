@@ -488,7 +488,8 @@ def strategic_readiness(roster, demand_map):
                 else:
                     evidenced += 1
         out.append({"capability": cap, "signal": sig,
-                    "holders": holders, "evidenced": evidenced, "latent": latent})
+                    "holders": holders, "evidenced": evidenced, "latent": latent,
+                    "public_vocabulary": public_vocabulary(cap)})
     return out
 
 
@@ -635,6 +636,9 @@ def main():
             gap = "  ← all latent, none evidenced (the value gap: prove it)"
         print(f"      {sig['label']:<42} value {sig['value_index']:>3} · scarcity {sig['scarcity']:<7} "
               f"· bench: {s['holders']} hold / {s['evidenced']} evidenced / {s['latent']} latent{gap}")
+        pv = s["public_vocabulary"]
+        if pv is not None:
+            print("          public vocabulary (ESCO): " + (", ".join(pv["skills"]) if pv["skills"] else f"none — {pv['no_match']}"))
 
 
 if __name__ == "__main__":
