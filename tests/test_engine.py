@@ -63,6 +63,10 @@ class LeadershipView(unittest.TestCase):
         out = buf.getvalue()
         self.assertIn("STRATEGIC DEMAND READINESS", out)
         self.assertNotIn("Public Health: 2 of 2", out)
+        # the leadership view says what the public skills list calls each demand,
+        # and says plainly where it has no match
+        self.assertIn("public vocabulary (ESCO)", out)
+        self.assertIn("none — A government vetting status", out)
 
 
 def _load_calibrate():
