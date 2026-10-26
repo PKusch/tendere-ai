@@ -218,6 +218,26 @@ class NonUtf8DefaultEncoding(unittest.TestCase):
         self.assertIn("VERDICT", r.stdout)
 
 
+class PublicVocabulary(unittest.TestCase):
+    """The engine reads the ESCO mapping instead of leaving it as a data file."""
+
+    def test_a_matched_capability_lists_its_esco_skills(self):
+        v = engine.public_vocabulary("Business Analysis")
+        self.assertEqual(v, {"skills": ["business analysis"]})
+
+    def test_an_unmatched_capability_says_why(self):
+        v = engine.public_vocabulary("Security Clearance")
+        self.assertEqual(v["skills"], [])
+        self.assertTrue(v["no_match"])
+
+    def test_a_capability_never_looked_up_is_none_not_empty(self):
+        self.assertIsNone(engine.public_vocabulary("Underwater Basket Weaving"))
+
+    def test_every_capability_in_the_demand_data_has_an_answer(self):
+        for s in load("demand.json")["signals"]:
+            self.assertIsNotNone(engine.public_vocabulary(s["capability"]), s["capability"])
+
+
 class EscoMapping(unittest.TestCase):
     """The public-vocabulary mapping covers every capability and never invents a link."""
 

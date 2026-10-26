@@ -446,6 +446,27 @@ def load_taxonomy():
     return json.loads(path.read_text(encoding="utf-8")).get("aliases", {}) if path.exists() else {}
 
 
+def load_esco():
+    """Capability name -> its public-vocabulary entry, from data/esco_map.json."""
+    path = DATA / "esco_map.json"
+    return json.loads(path.read_text(encoding="utf-8")).get("mappings", {}) if path.exists() else {}
+
+
+def public_vocabulary(name, esco=None):
+    """What the public skills classification (ESCO) calls this capability.
+
+    Returns {"skills": [labels]} where there is a reviewed match, or
+    {"skills": [], "no_match": reason} where ESCO has nothing, or None if the
+    capability was never looked up at all."""
+    entry = (load_esco() if esco is None else esco).get(name)
+    if entry is None:
+        return None
+    out = {"skills": [link["label"] for link in entry.get("esco", [])]}
+    if entry.get("no_match"):
+        out["no_match"] = entry["no_match"]
+    return out
+
+
 def strategic_readiness(roster, demand_map):
     """For each high-value demand signal, how ready is the bench? Counts holders and
     splits evidenced vs latent (self-taught/partial). Names are matched exactly, through
