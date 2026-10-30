@@ -217,6 +217,7 @@ data/
   taxonomy.json    reviewed aliases from profile names to demand names, nothing fuzzy
 tests/
   test_engine.py   the leadership view's numbers, pinned and run on every push
+  test_schedule.py the weekly plan and the Workday effects, line by line
 ```
 
 ---
@@ -250,7 +251,7 @@ tests/
 python -m unittest discover -s tests
 ```
 
-Thirty tests pin the leadership view's numbers, that the ESCO mapping covers every capability, how a gap is classified, what a verdict may claim, and that the dashboard says the same as the engine, so a data edit or a logic change that breaks them fails CI.
+Thirty-eight tests pin the leadership view's numbers, that the ESCO mapping covers every capability, how a gap is classified, what a verdict may claim, how the weekly plan fills its weeks, and that the dashboard says the same as the engine, so a data edit or a logic change that breaks them fails CI.
 
 ---
 
