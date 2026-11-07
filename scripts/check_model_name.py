@@ -27,6 +27,11 @@ def current_default() -> str:
 
 
 def main() -> int:
+    # The output is full of dashes and arrows; a console that cannot show them
+    # must not end a finished run in a crash.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(errors="replace")
     problems = 0
     default = current_default()
 

@@ -65,6 +65,11 @@ def _positive_int(v):
 
 
 def main():
+    # The output is full of dashes and arrows; a console that cannot show them
+    # must not end a finished run in a crash.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(errors="replace")
     ap = argparse.ArgumentParser()
     ap.add_argument("--runs", type=_positive_int, default=1)
     args = ap.parse_args()

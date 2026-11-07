@@ -16,6 +16,7 @@ a deterministic stub stands in here so the rest of the pipeline runs locally.
 
 import json
 import os
+import sys
 from pathlib import Path
 
 DATA = Path(__file__).parent / "data"
@@ -495,6 +496,11 @@ def strategic_readiness(roster, demand_map):
 
 # --------------------------- demo run ---------------------------
 def main():
+    # The output is full of dashes and arrows; a console that cannot show them
+    # must not end a finished run in a crash.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(errors="replace")
     roster = load("roster"); specs = load("spec")
     content = load("content"); demand = load("demand")
     content_map = {c["capability"]: c for c in content["content"]}

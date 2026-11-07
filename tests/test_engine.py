@@ -226,6 +226,16 @@ class NonUtf8DefaultEncoding(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr[-300:])
         self.assertIn("VERDICT", r.stdout)
 
+    def test_the_scripts_run_on_a_console_that_is_not_utf8(self):
+        # The dashes and arrows they print used to end a finished run in a
+        # UnicodeEncodeError on such a console (LC_ALL=C, a Windows code page).
+        env = {**os.environ, "LC_ALL": "C", "PYTHONUTF8": "0", "PYTHONCOERCECLOCALE": "0",
+               "PYTHONIOENCODING": "ascii"}
+        env.pop("ANTHROPIC_API_KEY", None)
+        for script, ok in (("engine.py", 0), ("scripts/check_model_name.py", 0), ("eval/calibrate.py", 2)):
+            r = subprocess.run([sys.executable, str(ROOT / script)], cwd=ROOT, env=env, capture_output=True)
+            self.assertEqual(r.returncode, ok, (script, r.stderr.decode("utf-8", "replace")[-300:]))
+
 
 class PublicVocabulary(unittest.TestCase):
     """The engine reads the ESCO mapping instead of leaving it as a data file."""
