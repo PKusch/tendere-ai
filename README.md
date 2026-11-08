@@ -251,7 +251,7 @@ tests/
 python -m unittest discover -s tests
 ```
 
-Forty-five tests pin the leadership view's numbers, that the ESCO mapping covers every capability, how a gap is classified, what a verdict may claim, how each gap becomes a plan action and how the weekly plan fills its weeks, and that the dashboard says the same as the engine, so a data edit or a logic change that breaks them fails CI.
+Forty-six tests pin the leadership view's numbers, that the ESCO mapping covers every capability, how a gap is classified, what a verdict may claim, how each gap becomes a plan action and how the weekly plan fills its weeks, and that the dashboard says the same as the engine, so a data edit or a logic change that breaks them fails CI.
 
 ---
 
