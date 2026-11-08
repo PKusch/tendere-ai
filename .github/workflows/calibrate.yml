@@ -45,6 +45,9 @@ jobs:
       - run: pip install -q -r requirements.txt
 
       - name: Calibrate
+        # shell: bash turns on pipefail, so a failure inside the block is not
+        # hidden behind tee's exit code of 0.
+        shell: bash
         run: |
           [ -n "$MODEL_INPUT" ] && export TENDERE_MODEL="$MODEL_INPUT"
           {
